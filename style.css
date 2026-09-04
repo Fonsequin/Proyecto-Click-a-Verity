@@ -1,6 +1,265 @@
-.verity{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-direction: column;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+  background: #fff;
+}
+
+/* ---------- HEADER ---------- */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid #111;
+  padding: 18px 30px;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-group.right {
+  text-align: right;
+}
+
+header a {
+  color: #111;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
+header a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.titulo {
+  font-size: 34px;
+  text-align: center;
+  flex: 1;
+}
+
+/* ---------- LAYOUT DE 3 COLUMNAS (index) ---------- */
+
+.contenido {
+  display: flex;
+  min-height: calc(100vh - 76px);
+}
+
+.columna {
+  border-right: 3px solid #111;
+  padding: 20px;
+}
+
+.columna:last-child {
+  border-right: none;
+}
+
+.col-izquierda {
+  flex: 1;
+}
+
+.col-centro {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.col-derecha {
+  flex: 1;
+}
+
+/* ---------- BOTON DE CLICK ---------- */
+
+.boton-click {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: #FFD400;
+  border: 3px solid #111;
+  cursor: pointer;
+  font-size: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boton-click:active {
+  transform: scale(0.97);
+}
+
+.contador {
+  font-size: 28px;
+  text-align: center;
+}
+
+.contador span {
+  font-weight: bold;
+}
+
+/* ---------- MEJORAS ---------- */
+
+.mejoras-titulo {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.mejora {
+  border: 2px solid #111;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.mejora h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.mejora p {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.mejora button {
+  font-family: inherit;
+  padding: 6px 14px;
+  border: 2px solid #111;
+  background: #fff;
+  cursor: pointer;
+}
+
+.mejora button:disabled {
+  color: #aaa;
+  border-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* ---------- PAGINAS SECUNDARIAS ---------- */
+
+.pagina {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.pagina h1 {
+  font-size: 30px;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #111;
+  padding-bottom: 10px;
+}
+
+.caja {
+  border: 2px solid #111;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+/* tabla de leaderboard */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 2px solid #111;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  background: #eee;
+}
+
+/* estadisticas: grilla de cajas */
+
+.grilla-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat-numero {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #444;
+}
+
+/* usuario */
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #111;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+
+.campo {
+  margin-bottom: 14px;
+}
+
+.campo label {
+  display: block;
+  font-size: 12px;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.campo input {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #111;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.boton-secundario {
+  font-family: inherit;
+  padding: 8px 16px;
+  border: 2px solid #111;
+  background: #fff;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* creditos */
+
+.credito {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.credito:last-child {
+  border-bottom: none;
 }
