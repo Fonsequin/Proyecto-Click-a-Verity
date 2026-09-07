@@ -1,3 +1,4 @@
+//comienzo de variables//
 let puntos = 0;
 let valorPorClick = 1;
 let puntosPorSegundo = 0;
@@ -12,6 +13,7 @@ let botonClick = document.getElementById("botonClick");
 let botonMejora1 = document.getElementById("mejora1");
 let botonMejora2 = document.getElementById("mejora2");
 let botonMejora3 = document.getElementById("mejora3");
+//fin de variables//
 
 //local storage//
 const CLAVE_GUARDADO = "clickaverityguardado";
@@ -77,6 +79,7 @@ botonClick.addEventListener("click", function () {
   sumarPuntos(valorPorClick);
 });
 
+//comprar mejora 1//
 botonMejora1.addEventListener("click", function () {
   let costo = parseInt(botonMejora1.getAttribute("data-costo"));
 
@@ -95,6 +98,7 @@ botonMejora1.addEventListener("click", function () {
   }
 });
 
+//comprar mejora 2//
 botonMejora2.addEventListener("click", function () {
   let costo = parseInt(botonMejora2.getAttribute("data-costo"));
 
@@ -113,6 +117,7 @@ botonMejora2.addEventListener("click", function () {
   }
 });
 
+//comprar mejora 3//
 botonMejora3.addEventListener("click", function () {
   let costo = parseInt(botonMejora3.getAttribute("data-costo"));
 
@@ -130,6 +135,7 @@ botonMejora3.addEventListener("click", function () {
     guardarDatos();
   }
 });
+
 
 setInterval(function () {
   if (puntosPorSegundo > 0) {
