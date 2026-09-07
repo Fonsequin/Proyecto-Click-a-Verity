@@ -1,17 +1,17 @@
-var puntos = 0;
-var valorPorClick = 1;
-var puntosPorSegundo = 0;
+let puntos = 0;
+let valorPorClick = 1;
+let puntosPorSegundo = 0;
 
-var dedoRapidoComprado = false;
-var ayudanteComprado = false;
-var dobleClickComprado = false;
+let dedoRapidoComprado = false;
+let ayudanteComprado = false;
+let dobleClickComprado = false;
 
-var contadorPuntos = document.getElementById("contadorPuntos");
-var botonClick = document.getElementById("botonClick");
+let contadorPuntos = document.getElementById("contadorPuntos");
+let botonClick = document.getElementById("botonClick");
 
-var botonMejora1 = document.getElementById("mejora1");
-var botonMejora2 = document.getElementById("mejora2");
-var botonMejora3 = document.getElementById("mejora3");
+let botonMejora1 = document.getElementById("mejora1");
+let botonMejora2 = document.getElementById("mejora2");
+let botonMejora3 = document.getElementById("mejora3");
 
 function actualizarContador() {
   contadorPuntos.textContent = puntos;
@@ -27,7 +27,7 @@ botonClick.addEventListener("click", function () {
 });
 
 botonMejora1.addEventListener("click", function () {
-  var costo = parseInt(botonMejora1.getAttribute("data-costo"));
+  let costo = parseInt(botonMejora1.getAttribute("data-costo"));
 
   if (dedoRapidoComprado === true) {
     return;
@@ -44,7 +44,7 @@ botonMejora1.addEventListener("click", function () {
 });
 
 botonMejora2.addEventListener("click", function () {
-  var costo = parseInt(botonMejora2.getAttribute("data-costo"));
+  let costo = parseInt(botonMejora2.getAttribute("data-costo"));
 
   if (ayudanteComprado === true) {
     return;
@@ -61,7 +61,7 @@ botonMejora2.addEventListener("click", function () {
 });
 
 botonMejora3.addEventListener("click", function () {
-  var costo = parseInt(botonMejora3.getAttribute("data-costo"));
+  let costo = parseInt(botonMejora3.getAttribute("data-costo"));
 
   if (dobleClickComprado === true) {
     return;
