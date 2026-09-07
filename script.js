@@ -13,6 +13,56 @@ let botonMejora1 = document.getElementById("mejora1");
 let botonMejora2 = document.getElementById("mejora2");
 let botonMejora3 = document.getElementById("mejora3");
 
+//local storage//
+const CLAVE_GUARDADO = "clickaverityguardado";
+
+function guardarDatos() {
+  let datos = {
+    puntos: puntos,
+    valorPorClick: valorPorClick,
+    puntosPorSegundo: puntosPorSegundo,
+    dedoRapidoComprado: dedoRapidoComprado,
+    ayudanteComprado: ayudanteComprado,
+    dobleClickComprado: dobleClickComprado
+  };
+
+  localStorage.setItem(CLAVE_GUARDADO, JSON.stringify(datos));
+}
+
+function cargarDatos() {
+  let datosGuardados = localStorage.getItem(CLAVE_GUARDADO);
+
+  if (!datosGuardados) {
+    return; 
+  }
+
+  let datos = JSON.parse(datosGuardados);
+
+  puntos = datos.puntos;
+  valorPorClick = datos.valorPorClick;
+  puntosPorSegundo = datos.puntosPorSegundo;
+  dedoRapidoComprado = datos.dedoRapidoComprado;
+  ayudanteComprado = datos.ayudanteComprado;
+  dobleClickComprado = datos.dobleClickComprado;
+
+  if (dedoRapidoComprado === true) {
+    botonMejora1.textContent = "Comprada";
+    botonMejora1.disabled = true;
+  }
+
+  if (ayudanteComprado === true) {
+    botonMejora2.textContent = "Comprada";
+    botonMejora2.disabled = true;
+  }
+
+  if (dobleClickComprado === true) {
+    botonMejora3.textContent = "Comprada";
+    botonMejora3.disabled = true;
+  }
+
+  actualizarContador();
+}
+
 function actualizarContador() {
   contadorPuntos.textContent = puntos;
 }
@@ -20,6 +70,7 @@ function actualizarContador() {
 function sumarPuntos(cantidad) {
   puntos += cantidad;
   actualizarContador();
+  guardarDatos();
 }
 
 botonClick.addEventListener("click", function () {
@@ -40,6 +91,7 @@ botonMejora1.addEventListener("click", function () {
     botonMejora1.textContent = "Comprada";
     botonMejora1.disabled = true;
     actualizarContador();
+    guardarDatos();
   }
 });
 
@@ -57,6 +109,7 @@ botonMejora2.addEventListener("click", function () {
     botonMejora2.textContent = "Comprada";
     botonMejora2.disabled = true;
     actualizarContador();
+    guardarDatos();
   }
 });
 
@@ -74,6 +127,7 @@ botonMejora3.addEventListener("click", function () {
     botonMejora3.textContent = "Comprada";
     botonMejora3.disabled = true;
     actualizarContador();
+    guardarDatos();
   }
 });
 
@@ -82,3 +136,11 @@ setInterval(function () {
     sumarPuntos(puntosPorSegundo);
   }
 }, 1000);
+
+//guardado automatico despues de dos mins
+setInterval(function () {
+  guardarDatos();
+}, 120000); 
+
+
+cargarDatos();
