@@ -10,7 +10,7 @@ body {
   background: #fff;
 }
 
-/* ---------- HEADER ---------- */
+/* header */
 
 header {
   display: flex;
@@ -52,7 +52,7 @@ header a.active {
   flex: 1;
 }
 
-/* ---------- LAYOUT DE 3 COLUMNAS (index) ---------- */
+/* layout de 3 columnas (index) */
 
 .contenido {
   display: flex;
@@ -85,7 +85,7 @@ header a.active {
   flex: 1;
 }
 
-/* ---------- BOTON DE CLICK ---------- */
+/* boton de click */
 
 .boton-click {
   width: 220px;
@@ -113,7 +113,7 @@ header a.active {
   font-weight: bold;
 }
 
-/* ---------- MEJORAS ---------- */
+/* mejoras */
 
 .mejoras-titulo {
   font-size: 28px;
