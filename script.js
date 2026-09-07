@@ -18,7 +18,7 @@ function actualizarContador() {
 }
 
 function sumarPuntos(cantidad) {
-  puntos = puntos + cantidad;
+  puntos += cantidad;
   actualizarContador();
 }
 
@@ -35,7 +35,7 @@ botonMejora1.addEventListener("click", function () {
 
   if (puntos >= costo) {
     puntos = puntos - costo;
-    valorPorClick = 2;
+    valorPorClick += 1;
     dedoRapidoComprado = true;
     botonMejora1.textContent = "Comprada";
     botonMejora1.disabled = true;
