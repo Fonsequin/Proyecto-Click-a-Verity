@@ -161,5 +161,23 @@ setInterval(function () {
   guardarDatos();
 }, 120000); 
 
+const contenedor = document.querySelector("#logros");
+
+fetch("/logros")
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+
+        datos.forEach(logro => {
+            contenedor.innerHTML += `
+                <article>
+                    <img src="${logro.imagen}" alt="${logro.nombre}">
+                    <h3>${logro.nombre}</h3>
+                    <p>Desc: ${logro.descripcion}</p>
+                    <a href="/logros/${logro.id}">Ver logro</a>
+                </article>
+            `;
+        });
+
+    });
 
 cargarDatos();
