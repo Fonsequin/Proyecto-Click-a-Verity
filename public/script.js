@@ -3,7 +3,7 @@ let puntos = 0;
 let valorPorClick = 1;
 let puntosPorSegundo = 0;
 
-// cantidad de veces que se compró cada mejora
+// cantidad de veces que se compro cada mejora
 let dedoRapidoComprado = 0;
 let ayudanteComprado = 0;
 let dobleClickComprado = 0;
@@ -15,15 +15,15 @@ let botonMejora1 = document.getElementById("mejora1");
 let botonMejora2 = document.getElementById("mejora2");
 let botonMejora3 = document.getElementById("mejora3");
 
-// costos BASE (el precio de la primera compra, tal cual estaba en el HTML)
+// costos base sin incremento de las mejoras
 const BASE_MEJORA1 = parseInt(botonMejora1.getAttribute("data-costo"));
 const BASE_MEJORA2 = parseInt(botonMejora2.getAttribute("data-costo"));
 const BASE_MEJORA3 = parseInt(botonMejora3.getAttribute("data-costo"));
 
-// porcentaje de aumento POR COMPRA (estilo Cookie Clicker, no se dispara)
-const AUMENTO_MEJORA1 = 0.15; // +15% por compra
-const AUMENTO_MEJORA2 = 0.13; // +13% por compra
-const AUMENTO_MEJORA3 = 0.35; // +35% por compra (crece más rápido que las otras, pero no explota)
+// incremento de las mejoras
+const AUMENTO_MEJORA1 = 0.15; // 15% por compra
+const AUMENTO_MEJORA2 = 0.13; // 13% por compra (mas o menos)
+const AUMENTO_MEJORA3 = 0.35; // 35% por compra
 
 // costos actuales, se recalculan cada vez con calcularCosto()
 let costoMejora1, costoMejora2, costoMejora3;
@@ -34,6 +34,14 @@ const CLAVE_GUARDADO = "clickaverityguardado";
 
 function calcularCosto(base, aumento, vecesComprada) {
   return Math.floor(base * Math.pow(1 + aumento, vecesComprada));
+}
+
+// recalcula el valor por click como si no valiese nada (me tuve que ayudar con ia)
+function recalcularValorClick() {
+  let baseAditiva = 1 + dedoRapidoComprado; // arranca en 1, +1 por cada boton1
+  let multiplicador = Math.pow(2, dobleClickComprado); // x2 por cada boton3
+
+  valorPorClick = baseAditiva * multiplicador;
 }
 
 function guardarDatos() {
@@ -56,13 +64,13 @@ function cargarDatos() {
     let datos = JSON.parse(datosGuardados);
 
     puntos = datos.puntos;
-    valorPorClick = datos.valorPorClick;
     puntosPorSegundo = datos.puntosPorSegundo;
     dedoRapidoComprado = datos.dedoRapidoComprado || 0;
     ayudanteComprado = datos.ayudanteComprado || 0;
     dobleClickComprado = datos.dobleClickComprado || 0;
   }
 
+  recalcularValorClick();
   recalcularCostos();
   actualizarBotones();
   actualizarContador();
@@ -78,7 +86,7 @@ function actualizarContador() {
   contadorPuntos.textContent = puntos;
 }
 
-// pinta en el HTML el costo real que hay en JS (fuente de verdad)
+// pone en el html el costo real y no uno cualquiera
 function actualizarBotones() {
   botonMejora1.setAttribute("data-costo", costoMejora1);
   botonMejora2.setAttribute("data-costo", costoMejora2);
@@ -103,9 +111,9 @@ botonClick.addEventListener("click", function () {
 botonMejora1.addEventListener("click", function () {
   if (puntos >= costoMejora1) {
     puntos = puntos - costoMejora1;
-    valorPorClick += 1;
     dedoRapidoComprado++;
 
+    recalcularValorClick();
     recalcularCostos();
     actualizarBotones();
     actualizarContador();
@@ -131,9 +139,9 @@ botonMejora2.addEventListener("click", function () {
 botonMejora3.addEventListener("click", function () {
   if (puntos >= costoMejora3) {
     puntos = puntos - costoMejora3;
-    valorPorClick = valorPorClick * 2;
     dobleClickComprado++;
 
+    recalcularValorClick();
     recalcularCostos();
     actualizarBotones();
     actualizarContador();
