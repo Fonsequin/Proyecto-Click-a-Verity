@@ -170,10 +170,13 @@ fetch("/logros")
         datos.forEach(logro => {
             contenedor.innerHTML += `
                 <article>
-                    <img src="${logro.imagen}" alt="${logro.nombre}">
-                    <h3>${logro.nombre}</h3>
-                    <p>Desc: ${logro.descripcion}</p>
-                    <a href="/logros/${logro.id}">Ver logro</a>
+                    <div class="logro">
+                      <img src="${logro.imagen}" alt="${logro.nombre}">
+                      <h3>${logro.nombre}</h3>
+                    </div>
+                    <p>${logro.descripcion}</p>
+                    <a href="/logros/${logro.id}" class="boton">Ver logro</a>
+                    <br></br>
                 </article>
             `;
         });

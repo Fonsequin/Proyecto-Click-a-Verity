@@ -9,26 +9,31 @@ const logros = [
 id: 1,
 nombre: "Hacer tu primer click",
 descripcion: "Hiciste tu primer click con Verity!",
+imagen: "public/imagenes/logro1.png",
 },
 {
 id: 2,
 nombre: "El inicio",
 descripcion: "Compraste tu primera mejora con Verity!",
+imagen: "public/imagenes/logro2.png",
 },
 {
 id: 3,
 nombre: "100 verities",
 descripcion: "Conseguiste 100 clicks!",
+imagen: "public/imagenes/logro3.png",
 },
 {
 id: 4,
 nombre: "500 verities",
 descripcion:"Conseguiste 500 clicks!",
+imagen: "public/imagenes/logro4.png",
 },
 {
 id: 5,
 nombre: "Click a Verity!",
 descripcion: "Llegaste al top 1 de la leaderboard!",
+imagen: "public/imagenes/logro5.png",
 }
 ];
 

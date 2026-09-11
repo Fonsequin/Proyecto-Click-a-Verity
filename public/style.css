@@ -117,6 +117,31 @@ a.titulo:hover {
   gap: 26px;
 }
 
+.boton{
+  text-decoration: none;
+  font-family: var(--font-mono);
+  color: var(--brass-light);
+}
+
+.logro{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.logros-titulo {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--brass-light);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .col-derecha {
   flex: 1;
 }
