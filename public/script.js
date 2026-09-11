@@ -21,9 +21,9 @@ const BASE_MEJORA2 = parseInt(botonMejora2.getAttribute("data-costo"));
 const BASE_MEJORA3 = parseInt(botonMejora3.getAttribute("data-costo"));
 
 // incremento de las mejoras
-const AUMENTO_MEJORA1 = 0.15; // 15% por compra
-const AUMENTO_MEJORA2 = 0.13; // 13% por compra (mas o menos)
-const AUMENTO_MEJORA3 = 0.35; // 35% por compra
+const AUMENTO_MEJORA1 = 1.65; // 165% por compra
+const AUMENTO_MEJORA2 = 1.10; // 110% por compra
+const AUMENTO_MEJORA3 = 2.10; // 210% por compra
 
 // costos actuales, se recalculan cada vez con calcularCosto()
 let costoMejora1, costoMejora2, costoMejora3;
