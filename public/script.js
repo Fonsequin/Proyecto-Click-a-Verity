@@ -184,3 +184,12 @@ fetch("/logros")
     });
 
 cargarDatos();
+
+
+//funcionamiento del login
+//falta completar el funcionamiento del login. Referencia en GitHub: susering
+const inputsLogin = document.querySelectorAll(".login");
+
+
+
+

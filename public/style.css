@@ -441,6 +441,24 @@ td {
   gap: 8px;
 }
 
+.contenedor-login img {
+  filter: invert(100%);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.contenedor-login img.active {
+  filter: invert(0%);
+  pointer-events: auto;
+}
+
+
+/*.contenedor-login img:hover {
+  filter: invert(0%);
+}*/
+
+
+
 /*estilo específico del login*/
 
 #separacion-login form label {
