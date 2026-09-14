@@ -413,6 +413,40 @@ td {
   padding: 12px 0;
 }
 
+/*login*/
+
+.contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+
+.contenedor-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+#separacion-login form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+
+
+
+
+
 
 /* animaciones */
 @keyframes girar {
