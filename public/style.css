@@ -441,12 +441,35 @@ td {
   gap: 8px;
 }
 
+/*estilo específico del login*/
 
+#separacion-login form label {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.6px;
+  color: var(--text-dim);
+  margin-top: 10px;
+}
 
+#separacion-login form label:first-child {
+  margin-top: 0;
+}
 
+#separacion-login form input {
+  padding: 10px 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  min-width: 220px;
+}
 
-
-
+#separacion-login form input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
 
 /* animaciones */
 @keyframes girar {
