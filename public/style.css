@@ -142,6 +142,11 @@ a.titulo:hover {
   justify-content: center;
 }
 
+.imagen-logro {
+  height: 50px;
+  width: 50px;
+}
+
 .col-derecha {
   flex: 1;
 }

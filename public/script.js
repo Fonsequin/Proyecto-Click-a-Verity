@@ -171,7 +171,7 @@ fetch("/logros")
             contenedor.innerHTML += `
                 <article>
                     <div class="logro">
-                      <img src="${logro.imagen}" alt="${logro.nombre}">
+                      <img src="${logro.imagen}" alt="${logro.nombre}"class="imagen-logro">
                       <h3>${logro.nombre}</h3>
                     </div>
                     <p>${logro.descripcion}</p>
