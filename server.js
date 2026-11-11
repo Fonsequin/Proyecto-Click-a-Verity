@@ -191,13 +191,64 @@ app.put("/usuarios/:id/progreso", async (solicitud, respuesta) => {
     }
 });
 
+// ---------- ESTADISTICAS DE UN USUARIO ----------
+// Todo sale de la base de datos: datos del usuario, mejoras, logros y puesto en el ranking
+app.get("/usuarios/:id/estadisticas", async (solicitud, respuesta) => {
+    try {
+        const id = Number(solicitud.params.id);
+
+        const [usuarios] = await conexion.query(
+            `SELECT usuarioID, nombre, puntaje, puntos_totales, clicks,
+                    puntos_por_segundo, tiempo_jugado
+             FROM usuarios WHERE usuarioID = ?`,
+            [id]
+        );
+        if (usuarios.length === 0) {
+            return respuesta.status(404).json({ mensaje: "Usuario no encontrado" });
+        }
+        const usuario = usuarios[0];
+
+        const [mejoras] = await conexion.query(
+            "SELECT mejoraID, cantidad FROM usuarios_mejoras WHERE usuarioID = ?",
+            [id]
+        );
+
+        const [[logros]] = await conexion.query(
+            "SELECT COUNT(*) AS total FROM usuarios_logros WHERE usuarioID = ?", [id]
+        );
+        const [[totalLogros]] = await conexion.query("SELECT COUNT(*) AS total FROM logros");
+
+        // mismo criterio de orden que el leaderboard (puntos totales y, si empatan, el mas antiguo)
+        const [[puesto]] = await conexion.query(
+            `SELECT COUNT(*) + 1 AS puesto FROM usuarios
+             WHERE puntos_totales > ? OR (puntos_totales = ? AND usuarioID < ?)`,
+            [usuario.puntos_totales, usuario.puntos_totales, id]
+        );
+        const [[jugadores]] = await conexion.query("SELECT COUNT(*) AS total FROM usuarios");
+
+        respuesta.json({
+            ...usuario,
+            mejoras,
+            mejoras_compradas: mejoras.reduce((suma, m) => suma + m.cantidad, 0),
+            logros_desbloqueados: Number(logros.total),
+            total_logros: Number(totalLogros.total),
+            puesto: Number(puesto.puesto),
+            total_jugadores: Number(jugadores.total)
+        });
+    } catch (error) {
+        console.error(error);
+        respuesta.status(500).json({ mensaje: "Error del servidor" });
+    }
+});
+
 // ---------- LEADERBOARD ----------
+// El top 1 es quien mas puntos_totales acumulo en toda su partida
 app.get("/leaderboard", async (solicitud, respuesta) => {
     try {
         const [filas] = await conexion.query(
-            `SELECT nombre, puntos_totales
+            `SELECT usuarioID, nombre, puntos_totales
              FROM usuarios
-             ORDER BY puntos_totales DESC
+             ORDER BY puntos_totales DESC, usuarioID ASC
              LIMIT 10`
         );
         respuesta.json(filas);

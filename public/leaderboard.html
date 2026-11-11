@@ -26,7 +26,6 @@
 
   <div class="pagina">
     <h1>leaderboard</h1>
-    <!--cambiar despues esto porfavor que es la leaderboard-->
     <table>
       <thead>
         <tr>
@@ -35,35 +34,14 @@
           <th>Puntos</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>manu</td>
-          <td>15.400</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>andres_capacete</td>
-          <td>12.980</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>verity_fan</td>
-          <td>9.750</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>pepe123</td>
-          <td>7.200</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>aitorgorra</td>
-          <td>6.100</td>
-        </tr>
+      <tbody id="cuerpoTabla">
+        <tr><td colspan="3">Cargando...</td></tr>
       </tbody>
     </table>
+    <p class="stat-label" id="estado"></p>
   </div>
 
+  <script src="sesion.js"></script>
+  <script src="leaderboard.js"></script>
 </body>
 </html>

@@ -528,3 +528,16 @@ td {
 .enlace-alternar:hover {
   color: var(--brass-light);
 }
+
+
+/* leaderboard: fila del usuario logueado */
+.fila-yo td {
+  color: var(--brass-light);
+  font-weight: 600;
+  background: var(--panel-2);
+}
+
+/* leaderboard / estadisticas: texto de estado */
+#estado {
+  margin-top: 12px;
+}
