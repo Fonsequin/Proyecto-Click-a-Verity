@@ -503,3 +503,28 @@ td {
     transform: rotate(360deg);
   }
 }
+
+/* login: mensajes y boton para alternar login/registro */
+.mensaje-login {
+  min-height: 20px;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--brass-light);
+  text-align: center;
+}
+
+.enlace-alternar {
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.enlace-alternar:hover {
+  color: var(--brass-light);
+}

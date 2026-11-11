@@ -29,17 +29,45 @@
 
     <div class="campo">
       <label>Nombre de usuario</label>
-      <input type="text" value="verity_fan" disabled>
+      <input type="text" id="campoNombre" disabled>
     </div>
-
 
     <div class="campo">
       <label>Fecha de registro</label>
-      <input type="text" value="12/03/2026" disabled>
+      <input type="text" id="campoFecha" disabled>
     </div>
 
-    <button class="boton-secundario">Cerrar sesion</button>
+    <button class="boton-secundario" id="botonCerrarSesion">Cerrar sesion</button>
   </div>
+
+  <script src="sesion.js"></script>
+  <script>
+    const sesion = requerirSesion();
+
+    if (sesion) {
+      document.querySelector("#campoNombre").value = sesion.nombre;
+
+      fetch(`/usuarios/${sesion.usuarioID}`)
+        .then(respuesta => {
+          if (respuesta.status === 404) {
+            cerrarSesion(); // la cuenta ya no existe
+          }
+          return respuesta.json();
+        })
+        .then(datos => {
+          // la fecha viene como AAAA-MM-DD
+          const [anio, mes, dia] = String(datos.fecha).slice(0, 10).split("-");
+          document.querySelector("#campoFecha").value = `${dia}/${mes}/${anio}`;
+        })
+        .catch(() => {
+          document.querySelector("#campoFecha").value = "No disponible";
+        });
+    }
+
+    document.querySelector("#botonCerrarSesion").addEventListener("click", function () {
+      cerrarSesion();
+    });
+  </script>
 
 </body>
 </html>

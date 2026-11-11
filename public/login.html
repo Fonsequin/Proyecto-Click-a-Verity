@@ -9,23 +9,29 @@
 </head>
 <body>
     <section class="contenedor">
-        <h1>Login</h1>
+        <h1 id="tituloForm">Login</h1>
         <div class="contenedor-login">
-            
-            <div id="separacion-login">
-                <form action="#" method="post"> <!--ESTO LO VAMOS A VER LA CLASE QUE VIENE-->
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" class="login">
-                    <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" class="login">
 
+            <div id="separacion-login">
+                <form id="formulario" autocomplete="on">
+                    <label for="usuario">Usuario:</label>
+                    <input type="text" id="usuario" class="login" maxlength="25" autocomplete="username">
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="password" id="contrasena" class="login" autocomplete="current-password">
+                    <button type="submit" hidden></button>
                 </form>
             </div>
-            
-            <a href="index.html" ><img src="imagenes/verity.png" alt="Verity" class="active"></a> <!--Con JavaScript le agregamos el atributo "active" al boton luego de llenar todos los campos-->
+
+            <!-- Verity es el boton: se "activa" por JS cuando los campos estan llenos -->
+            <a href="#" id="botonEntrar"><img src="imagenes/verity.png" alt="Verity"></a>
 
         </div>
+
+        <p id="mensaje" class="mensaje-login"></p>
+        <button type="button" id="alternar" class="enlace-alternar">No tengo cuenta, registrarme</button>
     </section>
 
-    </body>
+    <script src="sesion.js"></script>
+    <script src="login.js"></script>
+</body>
 </html>
