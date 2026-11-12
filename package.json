@@ -19,8 +19,12 @@
   },
   "homepage": "https://github.com/Fonsequin/Proyecto-Click-a-Verity#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^18.0.6",
     "express": "^5.2.1",
     "mysql2": "^3.24.5"
+  },
+  "allowScripts": {
+    "bcrypt@6.0.0": true
   }
 }
