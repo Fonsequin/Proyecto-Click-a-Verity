@@ -1,79 +1,52 @@
-//comienzo de variables//
-let puntos = 0;
-let valorPorClick = 1;
+const sesion = requerirSesion();
+
+// mejoras y aumento //
+const BASE_MEJORA1 = 20;   
+const AUMENTO_MEJORA1 = 1.15;
+
+const BASE_MEJORA2 = 50;   
+const AUMENTO_MEJORA2 = 1.15;
+
+const BASE_MEJORA3 = 100;  
+const AUMENTO_MEJORA3 = 2;
+
+// ---------- ELEMENTOS DEL HTML ----------
+const botonClick = document.querySelector("#botonClick");
+const contadorPuntos = document.querySelector("#contadorPuntos");
+const botonMejora1 = document.querySelector("#mejora1");
+const botonMejora2 = document.querySelector("#mejora2");
+const botonMejora3 = document.querySelector("#mejora3");
+const contenedorLogros = document.querySelector("#logros");
+
+// ---------- ESTADO DEL JUEGO ----------
+let puntos = 0;              // puntos actuales (se gastan)
+let puntosTotales = 0;       // puntos historicos (para el leaderboard)
+let clicksTotales = 0;
 let puntosPorSegundo = 0;
+let tiempoJugado = 0;        // en segundos
 
-// cantidad de veces que se compro cada mejora
-let dedoRapidoComprado = 0;
-let ayudanteComprado = 0;
-let dobleClickComprado = 0;
+let dedoRapidoComprado = 0;  // mejora 1
+let ayudanteComprado = 0;    // mejora 2
+let dobleClickComprado = 0;  // mejora 3
 
-let contadorPuntos = document.getElementById("contadorPuntos");
-let botonClick = document.getElementById("botonClick");
+let valorPorClick = 1;
+let costoMejora1 = BASE_MEJORA1;
+let costoMejora2 = BASE_MEJORA2;
+let costoMejora3 = BASE_MEJORA3;
 
-let botonMejora1 = document.getElementById("mejora1");
-let botonMejora2 = document.getElementById("mejora2");
-let botonMejora3 = document.getElementById("mejora3");
+let hayCambios = false;    
+let partidaCargada = false;  
 
-// costos base sin incremento de las mejoras
-const BASE_MEJORA1 = parseInt(botonMejora1.getAttribute("data-costo"));
-const BASE_MEJORA2 = parseInt(botonMejora2.getAttribute("data-costo"));
-const BASE_MEJORA3 = parseInt(botonMejora3.getAttribute("data-costo"));
+let catalogoLogros = [];             // logros
+const logrosObtenidos = new Set();   // logros ya obtenidos
 
-// incremento de las mejoras
-const AUMENTO_MEJORA1 = 1.65; // 165% por compra
-const AUMENTO_MEJORA2 = 1.10; // 110% por compra
-const AUMENTO_MEJORA3 = 2.10; // 210% por compra
-
-// costos actuales, se recalculan cada vez con calcularCosto()
-let costoMejora1, costoMejora2, costoMejora3;
-//fin de variables//
-
-//local storage//
-const CLAVE_GUARDADO = "clickaverityguardado";
-
-function calcularCosto(base, aumento, vecesComprada) {
-  return Math.floor(base * Math.pow(1 + aumento, vecesComprada));
+// ---------- CALCULOS ----------
+function calcularCosto(base, aumento, comprados) {
+  return Math.ceil(base * Math.pow(aumento, comprados));
 }
 
-// recalcula el valor por click como si no valiese nada (me tuve que ayudar con ia)
 function recalcularValorClick() {
-  let baseAditiva = 1 + dedoRapidoComprado; // arranca en 1, +1 por cada boton1
-  let multiplicador = Math.pow(2, dobleClickComprado); // x2 por cada boton3
-
-  valorPorClick = baseAditiva * multiplicador;
-}
-
-function guardarDatos() {
-  let datos = {
-    puntos: puntos,
-    valorPorClick: valorPorClick,
-    puntosPorSegundo: puntosPorSegundo,
-    dedoRapidoComprado: dedoRapidoComprado,
-    ayudanteComprado: ayudanteComprado,
-    dobleClickComprado: dobleClickComprado
-  };
-
-  localStorage.setItem(CLAVE_GUARDADO, JSON.stringify(datos));
-}
-
-function cargarDatos() {
-  let datosGuardados = localStorage.getItem(CLAVE_GUARDADO);
-
-  if (datosGuardados) {
-    let datos = JSON.parse(datosGuardados);
-
-    puntos = datos.puntos;
-    puntosPorSegundo = datos.puntosPorSegundo;
-    dedoRapidoComprado = datos.dedoRapidoComprado || 0;
-    ayudanteComprado = datos.ayudanteComprado || 0;
-    dobleClickComprado = datos.dobleClickComprado || 0;
-  }
-
-  recalcularValorClick();
-  recalcularCostos();
-  actualizarBotones();
-  actualizarContador();
+  valorPorClick = (1 + dedoRapidoComprado) * Math.pow(2, dobleClickComprado);
 }
 
 function recalcularCostos() {
@@ -82,11 +55,23 @@ function recalcularCostos() {
   costoMejora3 = calcularCosto(BASE_MEJORA3, AUMENTO_MEJORA3, dobleClickComprado);
 }
 
-function actualizarContador() {
-  contadorPuntos.textContent = puntos;
+function mejorasCompradasTotal() {
+  return dedoRapidoComprado + ayudanteComprado + dobleClickComprado;
 }
 
-// pone en el html el costo real y no uno cualquiera
+function actualizarContador() {
+  contadorPuntos.textContent = puntos;
+  actualizarDisponibilidad();
+}
+
+// deshabilita los botones que no se pueden pagar
+function actualizarDisponibilidad() {
+  botonMejora1.disabled = puntos < costoMejora1;
+  botonMejora2.disabled = puntos < costoMejora2;
+  botonMejora3.disabled = puntos < costoMejora3;
+}
+
+// costo real en la pagina //
 function actualizarBotones() {
   botonMejora1.setAttribute("data-costo", costoMejora1);
   botonMejora2.setAttribute("data-costo", costoMejora2);
@@ -95,16 +80,179 @@ function actualizarBotones() {
   botonMejora1.textContent = `Comprar (${costoMejora1} pts)`;
   botonMejora2.textContent = `Comprar (${costoMejora2} pts)`;
   botonMejora3.textContent = `Comprar (${costoMejora3} pts)`;
+
+  actualizarDisponibilidad();
 }
 
+function renderizarLogros() {
+  contenedorLogros.innerHTML = "";
+
+  catalogoLogros.forEach(logro => {
+    const obtenido = logrosObtenidos.has(logro.id);
+    // los logros que todavia no se consiguieron se ven apagados
+    const estilo = obtenido
+      ? "margin-bottom: 16px;"
+      : "margin-bottom: 16px; opacity: 0.35; filter: grayscale(1);";
+
+    contenedorLogros.innerHTML += `
+      <article style="${estilo}">
+        <div class="logro">
+          <img src="${logro.imagen}" alt="${logro.nombre}" class="imagen-logro">
+          <h3>${logro.nombre}</h3>
+        </div>
+        <p>${logro.descripcion}</p>
+        <a href="/logros/${logro.id}" class="boton">Ver logro</a>
+      </article>
+    `;
+  });
+}
+
+// guardar progreso //
+function guardarDatos() {
+  hayCambios = true;
+}
+
+function guardarEnServidor() {
+  if (!sesion || !partidaCargada || !hayCambios) return;
+  hayCambios = false;
+
+  fetch(`/usuarios/${sesion.usuarioID}/progreso`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    keepalive: true, // permite enviar aunque se cierre la pagina
+    body: JSON.stringify({
+      puntaje: puntos,
+      puntosTotales: puntosTotales,
+      clicks: clicksTotales,
+      puntosPorSegundo: puntosPorSegundo,
+      tiempoJugado: tiempoJugado,
+      mejoras: {
+        1: dedoRapidoComprado,
+        2: ayudanteComprado,
+        3: dobleClickComprado
+      }
+    })
+  })
+    .then(respuesta => {
+      if (!respuesta.ok) throw new Error("No se pudo guardar");
+      revisarTop1();
+    })
+    .catch(() => {
+      hayCambios = true; // reintenta en el proximo ciclo
+    });
+}
+
+async function cargarDatos() {
+  if (!sesion) return;
+
+  // progreso del usuario
+  try {
+    const respuesta = await fetch(`/usuarios/${sesion.usuarioID}`);
+
+    if (respuesta.status === 404) {
+      cerrarSesion(); // la cuenta ya no existe
+      return;
+    }
+
+    const datos = await respuesta.json();
+
+    puntos = datos.puntaje;
+    puntosTotales = Number(datos.puntos_totales);
+    clicksTotales = datos.clicks;
+    puntosPorSegundo = datos.puntos_por_segundo;
+    tiempoJugado = datos.tiempo_jugado;
+
+    datos.mejoras.forEach(mejora => {
+      if (mejora.mejoraID === 1) dedoRapidoComprado = mejora.cantidad;
+      if (mejora.mejoraID === 2) ayudanteComprado = mejora.cantidad;
+      if (mejora.mejoraID === 3) dobleClickComprado = mejora.cantidad;
+    });
+
+    partidaCargada = true;
+  } catch (error) {
+    console.log("No se pudo cargar la partida", error);
+  }
+
+  recalcularValorClick();
+  recalcularCostos();
+  actualizarBotones();
+  actualizarContador();
+
+  // logros (catalogo + los que ya tiene)
+  await cargarLogros();
+  revisarLogros();
+}
+
+async function cargarLogros() {
+  try {
+    const [respCatalogo, respObtenidos] = await Promise.all([
+      fetch("/logros"),
+      fetch(`/usuarios/${sesion.usuarioID}/logros`)
+    ]);
+
+    catalogoLogros = await respCatalogo.json();
+    const obtenidos = await respObtenidos.json();
+
+    obtenidos.forEach(logro => logrosObtenidos.add(logro.id));
+    renderizarLogros();
+  } catch (error) {
+    console.log("No se pudieron cargar los logros", error);
+  }
+}
+
+// condiciones logros //
+function otorgarLogro(logroID) {
+  if (!partidaCargada || logrosObtenidos.has(logroID)) return;
+
+  logrosObtenidos.add(logroID); // se marca ya para no enviarlo dos veces
+  renderizarLogros();
+
+  fetch(`/usuarios/${sesion.usuarioID}/logros`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ logroID: logroID })
+  }).catch(() => {
+    logrosObtenidos.delete(logroID); // si fallo, se vuelve a intentar despues
+    renderizarLogros();
+  });
+}
+
+function revisarLogros() {
+  if (clicksTotales >= 1) otorgarLogro(1);              // primer click
+  if (mejorasCompradasTotal() >= 1) otorgarLogro(2);    // primera mejora
+  if (clicksTotales >= 100) otorgarLogro(3);            // 100 clicks
+  if (clicksTotales >= 500) otorgarLogro(4);            // 500 clicks
+}
+
+// Logro 5: estar primero en la leaderboard
+async function revisarTop1() {
+  if (logrosObtenidos.has(5)) return;
+
+  try {
+    const respuesta = await fetch("/leaderboard");
+    const filas = await respuesta.json();
+
+    if (filas.length > 0 && filas[0].nombre === sesion.nombre) {
+      otorgarLogro(5);
+    }
+  } catch (error) {
+    // nada //
+  }
+}
+
+// juego en si //
 function sumarPuntos(cantidad) {
   puntos += cantidad;
+  puntosTotales += cantidad;
   actualizarContador();
   guardarDatos();
 }
 
 botonClick.addEventListener("click", function () {
+  if (!partidaCargada) return; // espera a que cargue la partida
+  clicksTotales++;
   sumarPuntos(valorPorClick);
+  revisarLogros();
 });
 
 //comprar mejora 1//
@@ -118,6 +266,7 @@ botonMejora1.addEventListener("click", function () {
     actualizarBotones();
     actualizarContador();
     guardarDatos();
+    revisarLogros();
   }
 });
 
@@ -132,6 +281,7 @@ botonMejora2.addEventListener("click", function () {
     actualizarBotones();
     actualizarContador();
     guardarDatos();
+    revisarLogros();
   }
 });
 
@@ -146,50 +296,34 @@ botonMejora3.addEventListener("click", function () {
     actualizarBotones();
     actualizarContador();
     guardarDatos();
+    revisarLogros();
   }
 });
 
-
+// puntos por segundo
 setInterval(function () {
-  if (puntosPorSegundo > 0) {
+  if (partidaCargada && puntosPorSegundo > 0) {
     sumarPuntos(puntosPorSegundo);
   }
 }, 1000);
 
-//guardado automatico despues de dos mins
+// tiempo jugado
 setInterval(function () {
-  guardarDatos();
-}, 120000); 
+  if (partidaCargada) {
+    tiempoJugado++;
+    guardarDatos();
+  }
+}, 1000);
 
-const contenedor = document.querySelector("#logros");
+// guardado automatico en la base de datos cada 10 segundos
+setInterval(guardarEnServidor, 10000);
 
-fetch("/logros")
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-
-        datos.forEach(logro => {
-            contenedor.innerHTML += `
-                <article>
-                    <div class="logro">
-                      <img src="${logro.imagen}" alt="${logro.nombre}"class="imagen-logro">
-                      <h3>${logro.nombre}</h3>
-                    </div>
-                    <p>${logro.descripcion}</p>
-                    <a href="/logros/${logro.id}" class="boton">Ver logro</a>
-                    <br></br>
-                </article>
-            `;
-        });
-
-    });
+// guardar al salir o cambiar de pestaña
+window.addEventListener("pagehide", guardarEnServidor);
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
+    guardarEnServidor();
+  }
+});
 
 cargarDatos();
-
-
-//funcionamiento del login
-//falta completar el funcionamiento del login. Referencia en GitHub: susering
-const inputsLogin = document.querySelectorAll(".login");
-
-
-
-

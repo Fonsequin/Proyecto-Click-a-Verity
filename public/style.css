@@ -458,9 +458,9 @@ td {
 }
 
 
-/*.contenedor-login img:hover {
+.contenedor-login img:hover {
   filter: invert(0%);
-}*/
+}
 
 
 
@@ -502,4 +502,38 @@ td {
   to {
     transform: rotate(360deg);
   }
+}
+
+.mensaje-login {
+  min-height: 20px;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--brass-light);
+  text-align: center;
+}
+
+.enlace-alternar {
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.enlace-alternar:hover {
+  color: var(--brass-light);
+}
+
+
+.fila-yo td {
+  color: var(--brass-light);
+  font-weight: 600;
+  background: var(--panel-2);
+}
+#estado {
+  margin-top: 12px;
 }
