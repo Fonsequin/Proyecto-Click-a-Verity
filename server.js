@@ -213,7 +213,6 @@ app.get("/usuarios/:id/estadisticas", async (solicitud, respuesta) => {
         );
         const [[totalLogros]] = await conexion.query("SELECT COUNT(*) AS total FROM logros");
 
-        // mismo criterio de orden que el leaderboard (puntos totales y, si empatan, el mas antiguo)
         const [[puesto]] = await conexion.query(
             `SELECT COUNT(*) + 1 AS puesto FROM usuarios
              WHERE puntos_totales > ? OR (puntos_totales = ? AND usuarioID < ?)`,
