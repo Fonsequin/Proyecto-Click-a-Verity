@@ -7,7 +7,6 @@ function formatearNumero(numero) {
   return Number(numero).toLocaleString("es-AR");
 }
 
-// segundos -> HH:MM:SS
 function formatearTiempo(segundos) {
   const horas = Math.floor(segundos / 3600);
   const minutos = Math.floor((segundos % 3600) / 60);
