@@ -458,9 +458,9 @@ td {
 }
 
 
-/*.contenedor-login img:hover {
+.contenedor-login img:hover {
   filter: invert(0%);
-}*/
+}
 
 
 
@@ -504,7 +504,6 @@ td {
   }
 }
 
-/* login: mensajes y boton para alternar login/registro */
 .mensaje-login {
   min-height: 20px;
   margin-bottom: 10px;
@@ -530,14 +529,11 @@ td {
 }
 
 
-/* leaderboard: fila del usuario logueado */
 .fila-yo td {
   color: var(--brass-light);
   font-weight: 600;
   background: var(--panel-2);
 }
-
-/* leaderboard / estadisticas: texto de estado */
 #estado {
   margin-top: 12px;
 }

@@ -1,20 +1,13 @@
-// ============================================================
-// CLICK A VERITY - script.js
-// Todo el progreso se guarda en la base de datos (nada en el navegador
-// salvo la sesion). Requiere que sesion.js se cargue antes.
-// ============================================================
-
 const sesion = requerirSesion();
 
-// ---------- CONFIGURACION DE MEJORAS (ajustala a tu gusto) ----------
-// costo = BASE * AUMENTO ^ (veces compradas), redondeado hacia arriba
-const BASE_MEJORA1 = 20;   // Click rapido  (+1 por click)
+// mejoras y aumento //
+const BASE_MEJORA1 = 20;   
 const AUMENTO_MEJORA1 = 1.15;
 
-const BASE_MEJORA2 = 50;   // Helpity (+1 punto por segundo)
+const BASE_MEJORA2 = 50;   
 const AUMENTO_MEJORA2 = 1.15;
 
-const BASE_MEJORA3 = 100;  // Doble click (x2 al valor del click)
+const BASE_MEJORA3 = 100;  
 const AUMENTO_MEJORA3 = 2;
 
 // ---------- ELEMENTOS DEL HTML ----------
@@ -41,12 +34,11 @@ let costoMejora1 = BASE_MEJORA1;
 let costoMejora2 = BASE_MEJORA2;
 let costoMejora3 = BASE_MEJORA3;
 
-let hayCambios = false;      // hay algo para enviar al servidor
-let partidaCargada = false;  // evita pisar tu progreso con ceros si falla la carga
+let hayCambios = false;    
+let partidaCargada = false;  
 
-// ---------- LOGROS ----------
-let catalogoLogros = [];             // todos los logros (de la base)
-const logrosObtenidos = new Set();   // ids de los que ya tiene este usuario
+let catalogoLogros = [];             // logros
+const logrosObtenidos = new Set();   // logros ya obtenidos
 
 // ---------- CALCULOS ----------
 function calcularCosto(base, aumento, comprados) {
@@ -67,7 +59,6 @@ function mejorasCompradasTotal() {
   return dedoRapidoComprado + ayudanteComprado + dobleClickComprado;
 }
 
-// ---------- PANTALLA ----------
 function actualizarContador() {
   contadorPuntos.textContent = puntos;
   actualizarDisponibilidad();
@@ -80,7 +71,7 @@ function actualizarDisponibilidad() {
   botonMejora3.disabled = puntos < costoMejora3;
 }
 
-// pone en el html el costo real y no uno cualquiera
+// costo real en la pagina //
 function actualizarBotones() {
   botonMejora1.setAttribute("data-costo", costoMejora1);
   botonMejora2.setAttribute("data-costo", costoMejora2);
@@ -116,9 +107,7 @@ function renderizarLogros() {
   });
 }
 
-// ---------- GUARDADO (base de datos) ----------
-// Las funciones del juego llaman a guardarDatos(); el envio real
-// se hace cada pocos segundos en guardarEnServidor().
+// guardar progreso //
 function guardarDatos() {
   hayCambios = true;
 }
@@ -211,7 +200,7 @@ async function cargarLogros() {
   }
 }
 
-// ---------- LOGROS: condiciones para desbloquear ----------
+// condiciones logros //
 function otorgarLogro(logroID) {
   if (!partidaCargada || logrosObtenidos.has(logroID)) return;
 
@@ -247,11 +236,11 @@ async function revisarTop1() {
       otorgarLogro(5);
     }
   } catch (error) {
-    // no pasa nada, se vuelve a revisar en el proximo guardado
+    // nada //
   }
 }
 
-// ---------- JUEGO ----------
+// juego en si //
 function sumarPuntos(cantidad) {
   puntos += cantidad;
   puntosTotales += cantidad;

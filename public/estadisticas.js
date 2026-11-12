@@ -1,6 +1,3 @@
-// Estadisticas del usuario logueado, leidas de la base de datos.
-// Se actualiza sola cada INTERVALO_MS.
-
 const INTERVALO_MS = 3000;
 
 const sesionActual = requerirSesion();
@@ -25,7 +22,6 @@ function poner(id, texto) {
   document.querySelector(id).textContent = texto;
 }
 
-// Debe coincidir con recalcularValorClick() de script.js
 function calcularPuntosPorClick(mejoras) {
   const cantidad = id => {
     const mejora = mejoras.find(m => m.mejoraID === id);
@@ -41,7 +37,7 @@ async function actualizarEstadisticas() {
     const respuesta = await fetch(`/usuarios/${sesionActual.usuarioID}/estadisticas`);
 
     if (respuesta.status === 404) {
-      cerrarSesion(); // la cuenta ya no existe
+      cerrarSesion(); 
       return;
     }
     if (!respuesta.ok) throw new Error("Error al leer las estadisticas");

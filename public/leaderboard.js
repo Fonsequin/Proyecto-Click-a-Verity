@@ -1,9 +1,6 @@
-// Leaderboard conectado a la base de datos.
-// Se actualiza solo cada INTERVALO_MS. El top 1 es quien mas puntos_totales tiene.
-
 const INTERVALO_MS = 5000;
 
-const sesionActual = obtenerSesion(); // puede ser null (se puede mirar sin cuenta)
+const sesionActual = obtenerSesion(); 
 const cuerpoTabla = document.querySelector("#cuerpoTabla");
 const estadoLeaderboard = document.querySelector("#estado");
 
@@ -11,7 +8,7 @@ function formatearNumero(numero) {
   return Number(numero).toLocaleString("es-AR");
 }
 
-// Usa textContent (no innerHTML) para que un nombre de usuario nunca pueda inyectar HTML
+// evitar la inyeccion html //
 function crearFila(puesto, nombre, puntos, esYo) {
   const fila = document.createElement("tr");
 
@@ -60,7 +57,7 @@ async function actualizarLeaderboard() {
       );
     });
 
-    // si el usuario no esta en el top, se muestra su puesto al final
+    // si el usuario no esta en el top se pone abajo //
     if (yo && yo.puesto > top.length) {
       cuerpoTabla.appendChild(crearFilaMensaje("..."));
       cuerpoTabla.appendChild(crearFila(yo.puesto, yo.nombre, yo.puntos_totales, true));

@@ -7,8 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-// ---------- LOGROS ----------
-// Mismo formato que antes (id, nombre, descripcion, imagen) para no romper script.js
+// todo apartado a logros //
 app.get("/logros", async (solicitud, respuesta) => {
     try {
         const [filas] = await conexion.query(
@@ -39,7 +38,7 @@ app.get("/logros/:id", async (solicitud, respuesta) => {
     }
 });
 
-// Logros que ya desbloqueo un usuario
+// logros desbloqueados //
 app.get("/usuarios/:id/logros", async (solicitud, respuesta) => {
     try {
         const [filas] = await conexion.query(
@@ -57,7 +56,7 @@ app.get("/usuarios/:id/logros", async (solicitud, respuesta) => {
     }
 });
 
-// Dar un logro a un usuario (si ya lo tiene, no hace nada)
+// sistema de dar logros //
 app.post("/usuarios/:id/logros", async (solicitud, respuesta) => {
     try {
         await conexion.query(
@@ -71,7 +70,7 @@ app.post("/usuarios/:id/logros", async (solicitud, respuesta) => {
     }
 });
 
-// ---------- REGISTRO / LOGIN ----------
+// registro y login//
 app.post("/registro", async (solicitud, respuesta) => {
     try {
         const { nombre, contrasena } = solicitud.body;
@@ -130,8 +129,7 @@ app.post("/login", async (solicitud, respuesta) => {
     }
 });
 
-// ---------- PERFIL / PROGRESO ----------
-// Datos del usuario + mejoras compradas (sirve para usuario.html, estadisticas.html y cargar partida)
+// datos del usuario //
 app.get("/usuarios/:id", async (solicitud, respuesta) => {
     try {
         const id = Number(solicitud.params.id);
@@ -158,9 +156,7 @@ app.get("/usuarios/:id", async (solicitud, respuesta) => {
     }
 });
 
-// Guardar progreso
-// body: { puntaje, puntosTotales, clicks, puntosPorSegundo, tiempoJugado,
-//         mejoras: { "1": 2, "2": 1, "3": 0 } }
+// progreso //
 app.put("/usuarios/:id/progreso", async (solicitud, respuesta) => {
     try {
         const id = Number(solicitud.params.id);
@@ -191,8 +187,7 @@ app.put("/usuarios/:id/progreso", async (solicitud, respuesta) => {
     }
 });
 
-// ---------- ESTADISTICAS DE UN USUARIO ----------
-// Todo sale de la base de datos: datos del usuario, mejoras, logros y puesto en el ranking
+// estadisticas //
 app.get("/usuarios/:id/estadisticas", async (solicitud, respuesta) => {
     try {
         const id = Number(solicitud.params.id);
@@ -241,8 +236,7 @@ app.get("/usuarios/:id/estadisticas", async (solicitud, respuesta) => {
     }
 });
 
-// ---------- LEADERBOARD ----------
-// El top 1 es quien mas puntos_totales acumulo en toda su partida
+// leaderboard //
 app.get("/leaderboard", async (solicitud, respuesta) => {
     try {
         const [filas] = await conexion.query(

@@ -18,7 +18,7 @@ function mostrarMensaje(texto) {
   mensaje.textContent = texto;
 }
 
-// Verity se "activa" cuando los dos campos estan llenos
+// cambio de verity
 function actualizarBoton() {
   const listo = inputUsuario.value.trim() !== "" && inputContrasena.value !== "";
   imagenEntrar.classList.toggle("active", listo);
@@ -27,7 +27,6 @@ function actualizarBoton() {
 inputUsuario.addEventListener("input", actualizarBoton);
 inputContrasena.addEventListener("input", actualizarBoton);
 
-// Cambiar entre login y registro
 botonAlternar.addEventListener("click", function () {
   modoRegistro = !modoRegistro;
   tituloForm.textContent = modoRegistro ? "Registro" : "Login";

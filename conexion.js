@@ -9,10 +9,10 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-    dateStrings: true // las fechas llegan como texto AAAA-MM-DD
+    dateStrings: true 
 });
 
-// Prueba de conexion al iniciar
+// iniciar //
 pool.getConnection((error, conexion) => {
     if (error) {
         console.log("Error de conexión:", error.message);
@@ -23,5 +23,5 @@ pool.getConnection((error, conexion) => {
     conexion.release();
 });
 
-// Exportamos la version con promesas para poder usar async/await
+
 module.exports = pool.promise();
